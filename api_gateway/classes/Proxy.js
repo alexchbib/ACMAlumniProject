@@ -1,6 +1,6 @@
 import axios from "axios";
 import pkg from "http-proxy-middleware";
-const { Filter, Options, createProxyMiddleware: createHttpProxyMiddleware } = pkg;
+const {createProxyMiddleware: createHttpProxyMiddleware } = pkg;
 const {get} = axios;
 
 export let proxies = []
@@ -8,7 +8,7 @@ export class Proxy {
     /**
      *
      * @param {string} name
-     * @param {Filter | Options} context
+     * @param {string} context
      * @param {number} port
      * @param {string} protocol
      */
@@ -26,21 +26,25 @@ export class Proxy {
      * @returns RequestHandler
      */
     create() {
-      return createHttpProxyMiddleware(this.context, {
+      return createHttpProxyMiddleware({
         target: {
           host: this.host,
           port: this.port,
           protocol: this.protocol,
         },
         changeOrigin: true,
+        pathRewrite: {
+          [`^/api/${this.name}`]: "",
+        },
       });
     }
+    
   
     /**
      * @returns string
      */
     get path() {
-      return `${this.protocol}://localhost:${this.port}/api/${this.name}`;
+      return `${this.protocol}://${this.host}:${this.port}`;
     }
   
     /**

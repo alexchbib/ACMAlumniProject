@@ -5,7 +5,7 @@ import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
-import { Proxy,proxies } from "./classes/Proxy";
+import { Proxy,proxies } from "./classes/Proxy.js";
 
 dotenv.config({path:"./.env"});
 const app = express();
@@ -14,11 +14,10 @@ const app = express();
 
 // THESE ARE TEST PROXIES. 
 // TODO: REPLACE WITH ACTUAL PROXIES (Auth, ScraperBackend, Notification etc.)
-const userApi = new Proxy("users", "/api/users/**", process.env.USER_PORT, process.env.USER_HOST);
-const todoApi = new Proxy("todos", "/api/todos/**", process.env.TODO_PORT, process.env.TODO_HOST);
+const testApi = new Proxy("test", "/api/test", process.env.USER_PORT);
 
 // testing proxies
-const activeProxies = [userApi, todoApi];
+const activeProxies = [testApi];
 let testedProxies = 0;
 const proxiesRequestHandlers = new Map();
 
@@ -39,35 +38,42 @@ for (const activeProxy of activeProxies) {
 
       // all the code goes here. Reason: Do not build proxy before it is tested
 
-      // establishing rate limit ~ 15 requests / 30 seconds
-      const limiter = rateLimit({
-        windowMs: 30 * 1000,
-        max: 15,
-        message: `Too many requests. Try again later`,
-      });
-
-      // middlewares
-
-      // using app.use(express.json() or express.urlencoded()) BREAKS the app: https://github.com/chimurai/http-proxy-middleware/issues/417
-      app.use(cors());
-      app.use(limiter);
-
-      // dynamically generated routes
-      for (const proxy of proxies) {
-        app.use(
-          `/api/${proxy.name}/**`,
-          customExpressRequestHandler(proxy.name)
-        );
-      }
-      const GATEWAY_PORT = process.env.GATEWAY_PORT || 5000;
-      app.listen(GATEWAY_PORT, () => {
-        console.log(
-          `[GATEWAY LISTENING] Gateway is listening on port ${GATEWAY_PORT}`
-        );
-      });
+      buildRoutes();
     }
   })();
 }
+
+function buildRoutes(){
+  // establishing rate limit ~ 15 requests / 30 seconds
+  const limiter = rateLimit({
+    windowMs: 30 * 1000,
+    max: 15,
+    message: `Too many requests. Try again later`,
+  });
+
+  // middlewares
+
+  // using app.use(express.json() or express.urlencoded()) BREAKS the app: https://github.com/chimurai/http-proxy-middleware/issues/417
+  app.use(cors());
+  app.use(limiter);
+
+  // dynamically generated routes
+  for (const proxy of proxies) {
+    app.use(
+      proxy.context,
+      customExpressRequestHandler(proxy.name)
+    );
+    console.log(`[ROUTE SETUP] Proxy: ${proxy.context}/** -> ${proxy.protocol}://${proxy.host}:${proxy.port}`)
+  }
+  const GATEWAY_PORT = process.env.GATEWAY_PORT || 5000;
+
+  app.listen(GATEWAY_PORT, () => {
+    console.log(
+      `[GATEWAY LISTENING] Gateway is listening on port ${GATEWAY_PORT}`
+    );
+  });
+}
+
 
 function proxyErrorHandler(_req, res) {
   res.send(
@@ -83,3 +89,4 @@ function customExpressRequestHandler(name) {
   // when proxy is not set in the proxiesToTest array, return the proxyErrorHandler error message (refer to proxyErrorHandler function)
   return proxiesRequestHandlers.get(name) || proxyErrorHandler;
 }
+
