@@ -1,0 +1,9 @@
+[
+    {
+        "name": "test",
+        "protocol": "http",
+        "context": "/api/test",
+        "port": "5001",
+        "host": "localhost"
+    }
+]
