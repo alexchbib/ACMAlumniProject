@@ -1,10 +1,10 @@
 body {
   margin: 0;
+  padding:0;
   font-family: Arial, sans-serif;
   scroll-behavior: smooth;
- 
-
 }
+
 .navbar {
   width: 100vw;
   display: flex;
@@ -39,7 +39,7 @@ body {
   color: rgb(6, 6, 130);
 }
 .logo {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   font-weight: bold;
   color: rgb(6, 6, 130);
 }
@@ -52,40 +52,12 @@ body {
   font-weight: bold;
   text-decoration: none;
   margin: 0 1rem;
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
   position: relative;
 }
 
-.nav-links a.active {
-  color: rgb(6, 6, 130);
-  font-weight: bold;
-}
-
-.nav-links a.active::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
-  background-color: rgb(6, 6, 130);
-  border-radius: 50%;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-}
-.home-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  
-}
 .home-text {
-  font-size: large;
+  /* font-size: large; */
   flex: 1;
   max-width: 50%;
   text-align: left;
@@ -104,10 +76,7 @@ body {
   border-radius: 10px;
 }
 
-.faq-section {
-  text-align: center;
-  padding: 2rem;
-}
+
 
 .faq-container {
   margin-top: 2rem;
@@ -131,7 +100,7 @@ body {
   outline: none;
   text-align: left;
   cursor: pointer;
-  font-size: 1rem;
+  /* font-size: 1rem; */
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -146,7 +115,7 @@ body {
   background-color: #fff;
   display: none;
   text-align: left;
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
   color: #333;
 }
 
@@ -154,49 +123,7 @@ body {
   display: block;
 }
 
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #FFAE3E;
-    padding: 1rem 0;
-  }
 
-  .nav-links.open {
-    display: flex;
-  }
-
-  .menu-toggle {
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: white;
-    display: block;
-  }
-  .home-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .home-text,
-  .image-container1 {
-    max-width: 100%;
-  }
-
-
-  .imagehome {
-    max-width: 100%;
-    margin-top: 20px;
-  }
-
-
-  .features-container {
-    flex-direction: column;
-  }
-}
 
 
 @media (min-width: 769px) {
@@ -206,27 +133,12 @@ body {
 }
 
 section {
-  padding: 4rem 2rem;
+  scroll-margin-top: 100px; /* Offset matches the sticky navbar height */
+  padding-inline: 2rem;
   text-align: center;
-  margin: 0 auto;
+  margin: auto;
+  margin-bottom: 10rem;
   max-width: 1200px;
-}
-
-.home {
-  color: rgb(1, 0, 0);
-  width:100vw;
-  height: 80vh;
-  min-width: 100vw;
-  background-image: url('/dealsss.png');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin: 0;
-  padding: 40px;
 }
 
 
@@ -249,11 +161,7 @@ section {
 .home-buttons .btn:hover {
   background-color: #FFAE3E;
 }
-.features {
-  color: rgb(1, 0, 0); 
-  height: 60vh; 
-  font-size: large;
-}
+
 .features-container {
   display: flex;
   justify-content: space-around;
@@ -283,7 +191,7 @@ section {
 .login , .signup, .deals, .reset-password, .verifyacc, .usersignup {
   color: rgb(1, 0, 0); 
   width:100vw; 
-  height: 100vh; 
+  /* height: 100vh;  */
   min-width: 100vw;
   background-image: url('/dealsss.png');
   background-size: cover; 
@@ -311,7 +219,7 @@ section {
 }
 
 h2 {
-  font-size: 2rem;
+  /* font-size: 2rem; */
   margin-bottom: 1rem;
 }
 
@@ -459,7 +367,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #f9f9f9;
 }
 
@@ -523,4 +431,54 @@ input {
 
 .back-to-login:hover {
   text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FFAE3E;
+    padding: 1rem 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    cursor: pointer;
+    /* font-size: 1.5rem; */
+    color: white;
+    display: block;
+  }
+  .home-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-text,
+  .image-container1 {
+    max-width: 100%;
+  }
+
+
+  .imagehome {
+    max-width: 100%;
+    margin-top: 20px;
+  }
+
+
+  .features-container {
+    flex-direction: column;
+  }
+
+  section{
+    margin-bottom:5rem;
+  }
+
 }
