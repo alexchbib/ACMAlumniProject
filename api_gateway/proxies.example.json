@@ -1,8 +1,8 @@
 [
     {
-        "name": "auth",
+        "name": "test",
         "protocol": "http",
-        "context": "/api/auth",
+        "context": "/api/test",
         "port": "3000",
         "host": "localhost"
     }
